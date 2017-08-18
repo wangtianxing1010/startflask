@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask
+from flask import Flask, render_template,flash
+
+
+app = Flask(__name__)
+app.config['SECRET_KEY']='secret key'
+
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return "我爱你"
+	flash( "")
+	return render_template('index.html')
 	
 	
 if __name__ == '__main__':
