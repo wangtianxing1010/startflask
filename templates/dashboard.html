@@ -1,2 +1,43 @@
+<!-- dashboard -->
+{% extends 'header.html' %}
 
-#dashboard
+{% block body %}
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+
+</div>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="home">
+	{% for tab in TOPIC_DICT ['Home']%}
+		<li><a href='{{tab[1]}}'>{{tab[0]}}</a></li>
+	{% endfor %}
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="profile">
+    <ul>
+  		<li>1</li>
+  		<li>2</li>
+  		<li>3</li>
+  	</ul>
+  	</div>
+  <div role="tabpanel" class="tab-pane fade" id="messages">
+  	{% for tab in TOPIC_DICT ['Home']%}
+		<li><a href='{{tab[1]}}'>{{tab[0]}}</a></li>
+	{% endfor %}
+	</div>
+  	
+  <div role="tabpanel" class="tab-pane fade" id="settings">	
+  {% for tab in TOPIC_DICT ['Home']%}
+		<li><a href='{{tab[1]}}'>{{tab[0]}}</a></li>
+	{% endfor %}
+	</div>
+</div>
+{% endblock %}
