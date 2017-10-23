@@ -1,23 +1,17 @@
-<!--404 -->
+<!-- Error -->
 <head>
     	<meta charset="utf-8">
-    	<title>404.Start flask</title>
+		<title>	{{title}}</title>
     	<meta name="viewport" content="width=device-width,initial-scale=1">
     	<link href='{{ url_for("static", filename="css/bootstrap.min.css") }}' rel='stylesheet'>
     	<link href='{{ url_for("static", filename="images/favicon.ico") }}' rel='shortcut icon'>
-
 </head>
 
+{% extends 'header.html'%}
 
-<body>
-{% block content %}
-{% with message = get_flashed_messages() %}
-	<div class ="alert alert-danger">
-	{{message[0]}}
-	<button type='button' class='close' data-dismiss='alert'>&times;</button>
-	</div>
-{% endwith %}
+{% block body %}
+<!--404-->
+<!--500-->
+<!-- Go Back Button -->
 	<a class='btn btn-primary btn-lg' href='{{url_for("Index")}}'>Go Back To Home Page</a>
-	
 {% endblock %}
-</body>
