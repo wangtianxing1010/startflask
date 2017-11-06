@@ -6,7 +6,7 @@ import sqlite3 # or import mysql.connector or MySQLdb
 							user='root',
 							password='ilove773',
 							db='startflask')'''
-def Connection():
+def connection():
 	conn = sqlite3.connect('sqlite3_flask.db')		
 	c = conn.cursor()
 	return c, conn

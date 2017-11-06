@@ -2,8 +2,21 @@
 {% extends 'header.html'%}
 {% block body%}
 <body>
-<div>
+<!--form-->
+<div class='container'>
+	<h4>Log in</h4>
+	</br>
+	{% from '_formhelpers.html' import render_field %}
+	 <form method=post action='/login/'>
+		<dl>
+		{{render_field(form.username)}}{{render_field(form.password)}}
+		</dl>	
+		<p><input type=submit value='Log in'></p>
+		</form>
+		{% if error %}
+			<p class=error><strong>Error: </strong>{{error}}</p>
+		{% endif %}
 </div>
-</body>
 {% endblock %}
+</body>
 </html>

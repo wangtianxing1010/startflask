@@ -7,7 +7,7 @@ from passlib.hash import sha256_crypt
 #from mysql.connector import mysql_real_escape_string as thwart
 
 
-from sqlite3_connect import Connection
+from sqlite3_connect import connection
 TOPIC_DICT = Content() 
 
 import gc
@@ -25,16 +25,38 @@ def Index():
 @app.route('/dashboard/')
 def Dashboard():
 	flash("Welcome to dashboard",'info')
-	return render_template('dashboard.html', TOPIC_DICT=TOPIC_DICT, title ='Startflask Dashboard'
-	)
+	return render_template('dashboard.html', TOPIC_DICT=TOPIC_DICT, title ='Startflask Dashboard')
 	
 
-		
 @app.route('/login/', methods=['GET','POST'])
 def Login():
 	flash("Please Log In","info")
-	return render_template('login.html', title = 'Login')
+	error = ''
+	try:
+		form = RegistrationForm(request.form)
+		c, conn = connection()# watch out for upper and lower case
+		if request.method == "POST":
+			data = c.execute("SELECT * FROM users WHERE username = (?)",(request.form['username'],) )# sqlite placeholder is ? rather than %s for MySQLdb
+			data = c.fetchone()[3] # uid is also count as fetched data
+			print data
+			if sha256_crypt.verify(request.form['password'],  data):
+				session['logged_in'] = True
+				session['username'] = request.form['username']
+				#session['admin']
+				flash('You are logged in')
+				
+				return redirect(url_for('Dashboard'))# watch out for upper and lower case
+			else:
+				error = 'Invalid credentials, try again'
+				
+		gc.collect()						
 		
+		return render_template('login.html', title = 'Login', form = form, error =error) #because using WTForms rather than hard code in html, form has to be passed in
+	
+	except Exception as e:
+		
+		return render_template('login.html', title = 'Login', form = form, error =e)
+
 		
 		
 class RegistrationForm(Form):
@@ -46,6 +68,9 @@ class RegistrationForm(Form):
 	
 	accept_tos = BooleanField('I accept all <a href ="/tos/">terms and conditions</a>',[validators.Required()])
 		
+		
+		
+		
 @app.route('/register/', methods=['GET','POST'])
 def Register():
 	flash("Please Log Up","info")
@@ -55,11 +80,12 @@ def Register():
 			username = form.username.data
 			email = form.email.data
 			password = sha256_crypt.encrypt(str(form.password.data))
-		 	c, conn = Connection()
 		 	
+		 	c, conn = connection()
 		 	c.execute('SELECT * FROM users WHERE username = (?)', (username,))
-		 	#x= c.execute('SELECT * FROM users WHERE username = (?)', (username,))
 		 	x=c.fetchall()
+		 	#x= c.execute('SELECT * FROM users WHERE username = (?)', (username,))
+
 		 	if int(len(x)) >0: #if int(len(x))>0:
 		 		flash('username taken') 
 				return render_template('register.html', title = 'Register', form=form)
