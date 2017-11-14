@@ -18,9 +18,12 @@
     	<ul class="nav nav-pills">
  			<li role="presentation" class="active"><a href="{{url_for('Index')}}">Home</a></li>
   			<li role="presentation"><a href="{{url_for('Dashboard')}}">Dashboard</a></li>
+    	{% if session.logged_in %}
+  			<li role="presentation"><a href="{{url_for('Logout')}}">Logout</a></li>
+  		{% else %}
   			<li role="presentation"><a href="{{url_for('Login')}}">Login</a></li>
   			<li role="presentation"><a href="{{url_for('Register')}}">Register</a></li>
-
+		{% endif %}
 		</ul>
 
 

@@ -9,7 +9,8 @@
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
     <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-  </ul>
+    <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+</ul>
 </div>
   <!-- Tab panes -->
 <div class="tab-content">
@@ -35,5 +36,10 @@
 		<li><a href='{{tab[1]}}'>{{tab[0]}}</a></li>
 	{% endfor %}
 	</div>
+  <div role="tabpanel" class="tab-pane fade" id="edit">	
+	  	  <div class="container-fluid">
+			{% include 'includes/commentbox.html' %}
+		  </div>
+	  </div>
 </div>
 {% endblock %}

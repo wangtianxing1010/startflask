@@ -1,0 +1,19 @@
+<!--includes is a similar idea to extends -->
+{% block body %}
+
+	{% if session['logged_in']%}
+		<form action="" class="form" method="post" id="inputform">
+			<label for="post">时代の句变:锤文: Email:</label>
+			<textarea class="form-control" rows="1" cols="5" name="jubian_title" form="inputform"></textarea> 
+			<br>
+			<textarea class="form-control" rows="8" cols="10" name="jubian_content" form="inputform"></textarea> 
+			<br>
+			<input class="btn btn-primary" type="submit" value="submit">
+			<br>
+			<br>
+		</form>
+	{% else %}
+	<p>You must be <a href="/login/">logged in</a> to post!</p>
+	{% endif %}
+
+{% endblock %}

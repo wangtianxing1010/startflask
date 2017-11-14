@@ -12,7 +12,8 @@ def Content():
 				['3','/urlgoeshere/']],
 	'Settings':[['1','/urlgoeshere/'],
 				['2','/urlgoeshere/'],
-				['3','/urlgoeshere/']]
+				['3','/urlgoeshere/']],
+	'Edit':[]
 	}
 	
 	return TOPIC_DICT
