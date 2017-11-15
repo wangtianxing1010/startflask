@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, flash, session, url_for, redirect, request, send_file,
-					send_from_directory
+from flask import Flask, render_template, flash, session, url_for, \
+				redirect, request, send_file, send_from_directory
+					 
 from content_manager import Content
 from wtforms import Form, TextField, PasswordField, BooleanField, validators
 from passlib.hash import sha256_crypt
@@ -12,21 +13,21 @@ from functools import wraps
 from sqlite3_connect import connection
 TOPIC_DICT = Content() 
 
-import gc
+import gc, os
 
 #import smtplib
 from flask_mail import Mail, Message
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path='/Users/me/Documents/mystuff/myproject/startflask/protected')
 app.config['SECRET_KEY']='secret key'
 app.config.update(
 					DEBUG = True,
 					MAIL_SEVER = 'smtp.gmail.com',
 					MAIL_PORT = 465,
 					MAIL_USE_SSL = True,
-					MAIL_USERNAME= 'tianxing.smartisan@gmail.com',
-					MAIL_PASSWORD = 'password')
-					
+					MAIL_USERNAME= 'n.wang.travel@gmail.com',
+					MAIL_PASSWORD = 'derigel1011')					
+
 mail= Mail(app)
 
 @app.route('/<path:urlpath>/', methods=['GET','POST'])
@@ -50,7 +51,6 @@ def logged_in_required(f):
 		else:
 			flash("You need to log in first",'warning')
 			return redirect(url_for('Login'))
-		
 	return wrap
 
 @app.route('/logout/')
@@ -140,19 +140,54 @@ def Register():
 	except Exception as e:
 		return str(e)
 				
+#send-email
+@app.route('/forget_password/')  
+def forget_password():
+	try:
+		msg = Message('当代生活',
+					sender='n.wang.travel@gmail.com',
+					recipients=['n.wang.travel@gmail.com'])
+		msg.body='yo, wanna hum ?'
+		mail.send(msg)
+		return 'Mail Sent'
+	except Exception, e:
+		return str(e)
 
 
+#return file
 @app.route('/dangdaishenghuo/')  
 def dangdaishenghuo():
 	title = '当代生活'
-	return render_template('downloads.html', title = title.decode('utf-8')
-)
+	return render_template('downloads.html', title = title.decode('utf-8'))
+
 
 @app.route('/return-file/')  
 def return_file():
 	return send_file('./static/images/ms-icon-310x310.png', attachment_filename ='ms-icon-310x310.png')
-	#./ is a the top working directory
+	#./ is the top working directory (relative)
 
+def special_requirement(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		try:
+			if 'daguguguji'==session['username']:
+				return f(*args, **kwargs)
+			else:
+				return redirect(url_for('Index'))
+		except:
+			return redirect(url_for('Index'))
+	return wrap
+
+#protected file
+@app.route('/secret/<path:filename>/')  
+@special_requirement
+def secret(filename):
+	try:
+		return send_from_directory(os.path.join(app.instance_path,''),filename)
+	except Exception, e:
+		return str(e)
+
+#robots
 @app.route('/robots.txt/' )
 @app.route('/#/')
 def On_My_Way():
