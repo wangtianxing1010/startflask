@@ -4,7 +4,8 @@ from flask import Flask, render_template, flash, session, url_for, \
 				redirect, request, send_file, send_from_directory
 					 
 from content_manager import Content
-from wtforms import Form, TextField, PasswordField, BooleanField, validators
+from wtforms import Form, TextField, PasswordField, BooleanField, validators, \
+					TextAreaField
 from passlib.hash import sha256_crypt
 #from mysql.connector import mysql_real_escape_string as thwart
 
@@ -40,7 +41,9 @@ def Index(urlpath='/'):
 @app.route('/dashboard/')
 def Dashboard():
 	flash("Welcome to dashboard",'info')
-	return render_template('dashboard.html', TOPIC_DICT=TOPIC_DICT, title ='Startflask Dashboard')
+	form = RegistrationForm(request.form)
+
+	return render_template('dashboard.html', TOPIC_DICT=TOPIC_DICT, title ='Startflask Dashboard',form=form)
 	
 def logged_in_required(f):
 	@wraps(f)
@@ -100,7 +103,8 @@ class RegistrationForm(Form):
 	confirm= PasswordField('Repeat password')
 	
 	accept_tos = BooleanField('I accept all <a href ="/tos/">terms and conditions</a>',[validators.Required()])
-		
+	#CKEditor
+	body = TextAreaField(u'正文',validators=[validators.DataRequired(u'内容不能为空')])	
 		
 		
 		

@@ -1,6 +1,9 @@
 <!-- dashboard -->
 {% extends 'header.html' %}
-
+{% block head %}
+{{ super() }}
+<script src="//cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
+{% endblock %}
 {% block body %}
 <div>
   <!-- Nav tabs -->

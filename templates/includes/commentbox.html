@@ -1,4 +1,5 @@
 <!--includes is a similar idea to extends -->
+
 {% block body %}
 
 	{% if session['logged_in']%}
@@ -6,7 +7,13 @@
 			<label for="post">时代の句变:锤文: Email:</label>
 			<textarea class="form-control" rows="1" cols="5" name="jubian_title" form="inputform"></textarea> 
 			<br>
-			<textarea class="form-control" rows="8" cols="10" name="jubian_content" form="inputform"></textarea> 
+			<!-- CKEditor -->
+			{{form.body(class='ckeditor',rows="8",cols="5")}}<!-- wtforms -->
+			
+			{#	{{wtf.form_field(form.body,(class="text-body", rows="8",cols="5", 
+			name="jubian_content", placeholder=u"你有什么想法？"))}} #}<!-- flask_bootstrap -->
+			<!-- <textarea class="form-control" rows="8" cols="10" name="jubian_content" form="inputform"></textarea> 
+			-->
 			<br>
 			<input class="btn btn-primary" type="submit" value="submit">
 			<br>
